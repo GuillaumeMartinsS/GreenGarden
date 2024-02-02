@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\FlowerRepository;
+use App\Repository\PlantRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=FlowerRepository::class)
+ * @ORM\Entity(repositoryClass=PlantRepository::class)
  */
-class Flower
+class Plant
 {
     /**
      * @ORM\Id
