@@ -42,6 +42,18 @@ class Plant
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Garden::class, inversedBy="plants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $garden;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Genre::class, inversedBy="plants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $genre;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +115,30 @@ class Plant
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getGarden(): ?Garden
+    {
+        return $this->garden;
+    }
+
+    public function setGarden(?Garden $garden): self
+    {
+        $this->garden = $garden;
+
+        return $this;
+    }
+
+    public function getGenre(): ?Genre
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?Genre $genre): self
+    {
+        $this->genre = $genre;
 
         return $this;
     }
