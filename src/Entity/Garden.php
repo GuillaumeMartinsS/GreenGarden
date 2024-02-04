@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\GardenRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\GardenRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GardenRepository::class)
@@ -16,22 +17,27 @@ class Garden
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"show_garden"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"show_garden"})
+     * 
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="gardens")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"show_garden"})
      */
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=Plant::class, mappedBy="garden", orphanRemoval=true)
+     * @Groups({"show_garden"})
      */
     private $plants;
 
