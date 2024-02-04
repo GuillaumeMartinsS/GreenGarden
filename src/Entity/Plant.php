@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\PlantRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PlantRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PlantRepository::class)
@@ -14,16 +15,19 @@ class Plant
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"show_plant"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"show_plant"})
      */
     private $age;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"show_plant"})
      */
     private $hydration;
 
@@ -34,6 +38,7 @@ class Plant
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({"show_plant"})
      */
     private $createdAt;
 
@@ -45,12 +50,14 @@ class Plant
     /**
      * @ORM\ManyToOne(targetEntity=Garden::class, inversedBy="plants")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"show_plant"})
      */
     private $garden;
 
     /**
      * @ORM\ManyToOne(targetEntity=Genre::class, inversedBy="plants")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"show_plant"})
      */
     private $genre;
 
