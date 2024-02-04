@@ -17,14 +17,40 @@ class PlantEvolutionController extends AbstractController
      */
     public function updatingPlantEvolution(EntityManagerInterface $entityManager, Garden $garden, PlantRepository $plantRepository, WeatherRepository $weatherRepository): Response
     {
-        
+
+        $dayWeather = $weatherRepository->findOneBy([],['id' => 'desc'])->getDayWeather();
+        $dayAgeValue = 0;
+        $dayHydrationValue = 0;
+
+
+        // setting age and hydration evolution depending the weather
+        switch ($dayWeather) {
+            case 'Sunny':
+                $dayAgeValue = 2;
+                $dayHydrationValue = -2;
+                break;
+            case 'Cloudy':
+                $dayAgeValue = 1;
+                $dayHydrationValue = -1;
+                break;
+            case 'Rainy':
+                $dayAgeValue = 1;
+                $dayHydrationValue = +1;
+                break;
+        }
         
         $plants = $garden->getPlants();
 
         foreach($plants as $plant)
         {
+
+            // for every plant : looking at the updatedAt, if not the createdAt
+            // comparing it to all registered weather datas
+            // for every day, look at the weather and increase the plant age depending it.
+
+
             // Updating plant's age
-            $olderPlant = $plant->setAge($plant->getAge() + 1);
+            $olderPlant = $plant->setAge($plant->getAge() + $dayAgeValue);
 
             // then remove if 10+
             if($olderPlant->getAge() > 10)
@@ -42,7 +68,7 @@ class PlantEvolutionController extends AbstractController
             }
 
             // Updating plant's hydration
-            $newHydrationPlant = $plant->setHydration($plant->getHydration() - 1);
+            $newHydrationPlant = $plant->setHydration($plant->getHydration() + $dayHydrationValue);
 
             // then remove if 0
             if($newHydrationPlant->getHydration() == 0)
