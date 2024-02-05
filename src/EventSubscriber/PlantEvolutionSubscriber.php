@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Service\OpenWeatherApi;
 use App\Repository\PlantRepository;
 use App\Repository\WeatherRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,11 +27,14 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
 
     private $entityManager;
 
-    public function __construct(WeatherRepository $weatherRepository, PlantRepository $plantRepository, EntityManagerInterface $entityManager)
+    private $openWeatherApi;
+
+    public function __construct(WeatherRepository $weatherRepository, PlantRepository $plantRepository, EntityManagerInterface $entityManager, OpenWeatherApi $openWeatherApi)
     {
         $this->weatherRepository = $weatherRepository;
         $this->plantRepository = $plantRepository;
         $this->entityManager = $entityManager;
+        $this->openWeatherApi = $openWeatherApi;
     }
 
     public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
@@ -48,22 +52,32 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $dayWeather = $this->weatherRepository->findOneBy([],['id' => 'desc'])->getDayWeather();
+        $apiWeather = $this->openWeatherApi->fetch();
+
+        if($apiWeather)
+        {
+            $dayWeather = $apiWeather;
+        }
+
+        else
+        {
+            $dayWeather = $this->weatherRepository->findOneBy([],['id' => 'desc'])->getDayWeather();
+        }
 
         $dayAgeValue = 0;
         $dayHydrationValue = 0;
 
         // setting age and hydration evolution depending the weather
         switch ($dayWeather) {
-            case 'Sunny':
+            case 'Clear':
                 $dayAgeValue = 1;
                 $dayHydrationValue = -2;
                 break;
-            case 'Cloudy':
+            case 'Clouds':
                 $dayAgeValue = rand(0,1);
                 $dayHydrationValue = -1;
                 break;
-            case 'Rainy':
+            case 'Rain':
                 $dayAgeValue = rand(0,1);
                 $dayHydrationValue = +1;
                 break;
