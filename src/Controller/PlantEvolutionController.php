@@ -62,7 +62,7 @@ class PlantEvolutionController extends AbstractController
             //? TO DO
 
             // then give value to the user if stage 8
-            if($olderPlant->getAge() == 8 && $olderPlant->getAge() != $plant->getAge())
+            if($olderPlant->getAge() == 8 && ($olderPlant->getAge() != $plant->getAge()))
             {
                 $garden->getUser()->setPoints($garden->getUser()->getPoints() + $plant->getGenre()->getValue());
             }
@@ -71,7 +71,7 @@ class PlantEvolutionController extends AbstractController
             $newHydrationPlant = $plant->setHydration($plant->getHydration() + $dayHydrationValue);
 
             // then remove if 0
-            if($newHydrationPlant->getHydration() == 0)
+            if($newHydrationPlant->getHydration() <= 0)
             {
                 $plantRepository->remove($plant,true);
             }
