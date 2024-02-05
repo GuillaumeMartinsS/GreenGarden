@@ -26,15 +26,15 @@ class PlantEvolutionController extends AbstractController
         // setting age and hydration evolution depending the weather
         switch ($dayWeather) {
             case 'Sunny':
-                $dayAgeValue = 2;
+                $dayAgeValue = 1;
                 $dayHydrationValue = -2;
                 break;
             case 'Cloudy':
-                $dayAgeValue = 1;
+                $dayAgeValue = rand(0,1);
                 $dayHydrationValue = -1;
                 break;
             case 'Rainy':
-                $dayAgeValue = 1;
+                $dayAgeValue = rand(0,1);
                 $dayHydrationValue = +1;
                 break;
         }
@@ -62,7 +62,7 @@ class PlantEvolutionController extends AbstractController
             //? TO DO
 
             // then give value to the user if stage 8
-            if($olderPlant->getAge() == 8)
+            if($olderPlant->getAge() == 8 && ($olderPlant->getAge() != $plant->getAge()))
             {
                 $garden->getUser()->setPoints($garden->getUser()->getPoints() + $plant->getGenre()->getValue());
             }
@@ -71,7 +71,7 @@ class PlantEvolutionController extends AbstractController
             $newHydrationPlant = $plant->setHydration($plant->getHydration() + $dayHydrationValue);
 
             // then remove if 0
-            if($newHydrationPlant->getHydration() == 0)
+            if($newHydrationPlant->getHydration() <= 0)
             {
                 $plantRepository->remove($plant,true);
             }

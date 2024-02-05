@@ -70,7 +70,7 @@ class AppFixtures extends Fixture
                 ],
                 [
                     'date' => '04/02/2024',
-                    'dayWeather' => 'Sunny',
+                    'dayWeather' => 'Cloudy',
                     'forcastDay1' => 'Cloudy',
                     'forcastDay2' => 'Rainy',
                     'forcastDay3' => 'Sunny',
@@ -205,7 +205,7 @@ class AppFixtures extends Fixture
                 /************* Plant *************/
                 // Making of data fixtures for Garden Entity :
 
-                    for ($i = 0; $i < rand(1, 5); $i++)
+                    for ($i = 0; $i < rand(2, 7); $i++)
                     {
                         $newPlant = new Plant();
 
