@@ -25,15 +25,15 @@ class PlantEvolutionController extends AbstractController
 
         // setting age and hydration evolution depending the weather
         switch ($dayWeather) {
-            case 'Sunny':
+            case 'Clear':
                 $dayAgeValue = 1;
                 $dayHydrationValue = -2;
                 break;
-            case 'Cloudy':
+            case 'Clouds':
                 $dayAgeValue = rand(0,1);
                 $dayHydrationValue = -1;
                 break;
-            case 'Rainy':
+            case 'Rain':
                 $dayAgeValue = rand(0,1);
                 $dayHydrationValue = +1;
                 break;
