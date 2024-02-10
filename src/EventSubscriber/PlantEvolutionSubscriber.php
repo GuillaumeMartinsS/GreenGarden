@@ -85,7 +85,7 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
                 $dayAgeValue = rand(0,1);
                 $dayHydrationValue = -1;
                 break;
-            case 'Rain':
+            case 'Rain' || 'Drizzle':
                 $dayAgeValue = rand(0,1);
                 $dayHydrationValue = +1;
                 break;
