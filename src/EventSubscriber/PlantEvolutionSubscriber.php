@@ -3,9 +3,11 @@
 namespace App\EventSubscriber;
 
 use App\Service\OpenWeatherApi;
+use Symfony\Component\Mime\Email;
 use App\Repository\PlantRepository;
 use App\Repository\WeatherRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 
@@ -29,12 +31,15 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
 
     private $openWeatherApi;
 
-    public function __construct(WeatherRepository $weatherRepository, PlantRepository $plantRepository, EntityManagerInterface $entityManager, OpenWeatherApi $openWeatherApi)
+    private $mailer;
+
+    public function __construct(WeatherRepository $weatherRepository, PlantRepository $plantRepository, EntityManagerInterface $entityManager, OpenWeatherApi $openWeatherApi, MailerInterface $mailer)
     {
         $this->weatherRepository = $weatherRepository;
         $this->plantRepository = $plantRepository;
         $this->entityManager = $entityManager;
         $this->openWeatherApi = $openWeatherApi;
+        $this->mailer = $mailer;
     }
 
     public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
@@ -66,6 +71,9 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
 
         $dayAgeValue = 0;
         $dayHydrationValue = 0;
+
+        // //! Just to try with clouds
+        // $dayWeather = 'Clouds';
 
         // setting age and hydration evolution depending the weather
         switch ($dayWeather) {
@@ -120,6 +128,23 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
 
             // Updating plant's hydration
             $newHydrationPlant = $plant->setHydration($plant->getHydration() + $dayHydrationValue);
+
+            if($newHydrationPlant->getHydration() <= 2 && !isset($email))
+            {
+            // Sending an email if the plant hydration value is 2 or less
+            $email = (new Email())
+            ->from('hello@example.com')
+            ->to($garden->getUser()->getEmail())
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Attention ' . $garden->getUser()->getName() . ', tes plantes sont en train de faner !')
+            ->text($garden->getUser()->getName() . ', tes plantes sont en train de faner ! Reviens vite t\'occuper de ton jardin pour que qu\'il reste beau et continuer à aquérir des points.')
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+
+            $this->mailer->send($email);
+            }
 
             // then remove if 0
             if($newHydrationPlant->getHydration() <= 0)

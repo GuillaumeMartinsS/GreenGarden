@@ -41,8 +41,8 @@ class APIUserController extends AbstractController
         //->bcc('bcc@example.com')
         //->replyTo('fabien@example.com')
         //->priority(Email::PRIORITY_HIGH)
-        ->subject('You just registered to our app')
-        ->text('Welcome ' . $newUser->getName() . '! You just registered to out app ! You can now create your first garden and plant your first seed.')
+        ->subject('Tu viens de d\'inscrire à notre application GreenApp')
+        ->text('Salut ' . $newUser->getName() . ' ! Tu viens juste de t\'inscrire à notre application ! Tu peux maintenant créer ton premier jardin et palnter ta première graine !')
         ->html('<p>See Twig integration for better HTML integration!</p>');
 
         $mailer->send($email);
