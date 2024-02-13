@@ -3,10 +3,10 @@
 namespace App\EventSubscriber;
 
 use App\Service\OpenWeatherApi;
-use Symfony\Component\Mime\Email;
 use App\Repository\PlantRepository;
 use App\Repository\WeatherRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
@@ -132,7 +132,7 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
             if($newHydrationPlant->getHydration() <= 2 && !isset($email))
             {
             // Sending an email if the plant hydration value is 2 or less
-            $email = (new Email())
+            $email = (new TemplatedEmail())
             ->from('hello@example.com')
             ->to($garden->getUser()->getEmail())
             //->cc('cc@example.com')
@@ -140,8 +140,13 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
             ->subject('Attention ' . $garden->getUser()->getName() . ', tes plantes sont en train de faner !')
-            ->text($garden->getUser()->getName() . ', tes plantes sont en train de faner ! Reviens vite t\'occuper de ton jardin pour que qu\'il reste beau et continuer à aquérir des points.')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
+            // ->text($garden->getUser()->getName() . ', tes plantes sont en train de faner ! Reviens vite t\'occuper de ton jardin pour que qu\'il reste beau et continuer à aquérir des points.')
+            ->htmlTemplate('emails/plantEvolution.html.twig')
+
+            // pass variables (name => value) to the template
+            ->context([
+            'garden' => $garden,
+            ]);
 
             $this->mailer->send($email);
             }

@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use Symfony\Component\Mime\Email;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,16 +34,21 @@ class APIUserController extends AbstractController
         $entityManager->flush();
 
         // Sending an email once user registered
-        $email = (new Email())
-        ->from('hello@example.com')
+        $email = (new TemplatedEmail())
+        ->from('admin@admin.com')
         ->to($newUser->getEmail())
         //->cc('cc@example.com')
         //->bcc('bcc@example.com')
         //->replyTo('fabien@example.com')
         //->priority(Email::PRIORITY_HIGH)
         ->subject('Tu viens de d\'inscrire à notre application GreenApp')
-        ->text('Salut ' . $newUser->getName() . ' ! Tu viens juste de t\'inscrire à notre application ! Tu peux maintenant créer ton premier jardin et palnter ta première graine !')
-        ->html('<p>See Twig integration for better HTML integration!</p>');
+        // ->text('Salut ' . $newUser->getName() . ' ! Tu viens juste de t\'inscrire à notre application ! Tu peux maintenant créer ton premier jardin et palnter ta première graine !')
+        ->htmlTemplate('emails/register.html.twig')
+
+        // pass variables (name => value) to the template
+        ->context([
+        'newUser' => $newUser,
+        ]);
 
         $mailer->send($email);
 
