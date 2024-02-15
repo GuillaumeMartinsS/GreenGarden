@@ -17,7 +17,7 @@ class APIUserController extends AbstractController
      * Route to create a new user
      * @Route("/api/users", name="api_user_create", methods={"POST"})
      */
-    public function createPlant(EntityManagerInterface $entityManager, Request $request, MailerInterface $mailer): Response
+    public function createUser(EntityManagerInterface $entityManager, Request $request, MailerInterface $mailer): Response
     {
         $data = $request->getContent();
         $dataDecoded = json_decode($data);
