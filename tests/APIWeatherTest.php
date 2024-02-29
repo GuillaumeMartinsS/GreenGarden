@@ -17,7 +17,7 @@ class APIWeatherTest extends KernelTestCase
         // we use the API to get the current weather
         $apiWeather = $openWeatherApi->fetch();
 
-        $weatherPossibleValues = ['Rain', 'Mist', 'Clouds', 'Clear'];
+        $weatherPossibleValues = ['Rain', 'Drizzle', 'Mist', 'Clouds', 'Clear'];
 
         // testing if we get the actual weather and if it's a value within $weatherPossibleValues
         $this->assertContains($apiWeather, $weatherPossibleValues);
