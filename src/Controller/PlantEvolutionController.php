@@ -44,7 +44,7 @@ class PlantEvolutionController extends AbstractController
                 $dayAgeValue = 1;
                 $dayHydrationValue = -2;
                 break;
-            case 'Clouds':
+            case 'Clouds' || 'Mist':
                 $dayAgeValue = rand(0,1);
                 $dayHydrationValue = -1;
                 break;
