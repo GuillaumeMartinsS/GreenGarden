@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class APIWeatherTest extends KernelTestCase
 {
-    public function testSomething(): void
+    public function testAPIWeather(): void
     {
         $kernel = self::bootKernel();
 
