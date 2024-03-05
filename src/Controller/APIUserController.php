@@ -19,7 +19,7 @@ class APIUserController extends AbstractController
      * Route to create a new user
      * @Route("/api/users", name="api_user_create", methods={"POST"})
      */
-    public function createUser(EntityManagerInterface $entityManager, Request $request, MailerInterface $mailer): Response
+    public function createUser(EntityManagerInterface $entityManager, Request $request, MailerInterface $mailer, UserPasswordHasherInterface $hasher): Response
     {
         $data = $request->getContent();
         $dataDecoded = json_decode($data);
@@ -29,6 +29,7 @@ class APIUserController extends AbstractController
         $newUser->setName($dataDecoded->name);
         $newUser->setEmail($dataDecoded->email);
         $newUser->setPassword($dataDecoded->password);
+        $newUser->setPassword($hasher->hashPassword($newUser, $newUser->getPassword()));
         $newUser->setRoles(["ROLE_USER"]);
         $newUser->setPoints(0);
 
