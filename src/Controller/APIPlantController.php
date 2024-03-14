@@ -41,8 +41,7 @@ class APIPlantController extends AbstractController
         $newPlant->setHydration($newPlant->getGenre()->getMaxHydration());
         $newPlant->setCreatedAt(new DateTimeImmutable('now'));
 
-        // $newPlant->setGarden($this->getUser()->getGarden());
-        $newPlant->setGarden($gardenRepository->find(2));
+        $newPlant->setGarden($gardenRepository->find($dataDecoded->garden));
 
         $entityManager->persist($newPlant);
         $entityManager->flush();
