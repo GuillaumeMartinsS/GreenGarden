@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PlantEvolutionController extends AbstractController
 {
     /**
-     * @Route("/evolution/garden/{id}", name="api_evolution_garden")
+     * @Route("/api/evolution/garden/{id}", name="api_evolution_garden")
      */
     public function updatingPlantEvolution(EntityManagerInterface $entityManager, Garden $garden, PlantRepository $plantRepository, WeatherRepository $weatherRepository, MailerInterface $mailer, OpenWeatherApi $openWeatherApi): Response
     {
