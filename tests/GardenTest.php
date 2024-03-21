@@ -2,17 +2,40 @@
 
 namespace App\Tests;
 
+use App\Repository\UserRepository;
 use App\Repository\PlantRepository;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class GardenTest extends WebTestCase
 {
-    public function testGetGarden(): void
+    // we get the user to test if we can access to a garden with the url below while connected
+    public function testGetGardenUserConnected(): void
     {
         $client = static::createClient();
+
+        
+        $userRepository = static::getContainer()->get(UserRepository::class);
+
+        $user = $userRepository->findBy(['email' => 'guillaume@guillaume.com']);
+        $testuser = $user[0];
+
+        $client->loginUser($testuser);
+
         $crawler = $client->request('GET', '/api/garden/1');
 
         $this->assertResponseIsSuccessful();
+    }
+
+    // We are here testing the connection to a garden with a non-connected user
+    public function testGetGardenNoConnected(): void
+    {
+        $client = static::createClient();
+
+        
+        $crawler = $client->request('GET', '/api/garden/1');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
     public function testCreatePlant(): void
@@ -23,6 +46,13 @@ class GardenTest extends WebTestCase
 
         $currentPlants = $plantRepository->findAll();
         $currentPlantsNumber = count($currentPlants);
+
+        $userRepository = static::getContainer()->get(UserRepository::class);
+
+        $user = $userRepository->findBy(['email' => 'guillaume@guillaume.com']);
+        $testuser = $user[0];
+
+        $client->loginUser($testuser);
 
         $request = $client->jsonRequest(
             'POST', 
@@ -39,4 +69,5 @@ class GardenTest extends WebTestCase
         $this->assertSame($currentPlantsNumber + 1, $newPlantsNumber);
 
     }
+
 }

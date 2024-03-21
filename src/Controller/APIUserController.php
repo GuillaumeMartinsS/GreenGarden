@@ -86,8 +86,6 @@ class APIUserController extends AbstractController
 
             $uploadedName = md5(uniqid()) . '.' . $upload->guessExtension();
 
-            //! will add a validor
-
             $upload->move(
                 $this->getParameter('upload_directory'),
                 $uploadedName);
