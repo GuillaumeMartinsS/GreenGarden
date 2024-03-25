@@ -16,18 +16,21 @@ class Plant
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"show_plant"})
+     * @Groups({"show_garden"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
      * @Groups({"show_plant"})
+     * @Groups({"show_garden"})
      */
     private $age;
 
     /**
      * @ORM\Column(type="integer")
      * @Groups({"show_plant"})
+     * @Groups({"show_garden"})
      */
     private $hydration;
 
@@ -58,6 +61,7 @@ class Plant
      * @ORM\ManyToOne(targetEntity=Genre::class, inversedBy="plants")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"show_plant"})
+     * @Groups({"show_garden"})
      */
     private $genre;
 

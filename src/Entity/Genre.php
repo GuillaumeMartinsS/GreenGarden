@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\GenreRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\GenreRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=GenreRepository::class)
@@ -16,31 +17,37 @@ class Genre
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"show_garden"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"show_garden"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"show_garden"})
      */
     private $maxHydration;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"show_garden"})
      */
     private $value;
 
     /**
      * @ORM\Column(type="array", nullable=true)
+     * @Groups({"show_garden"})
      */
     private $maturePicture = [];
 
     /**
      * @ORM\Column(type="array", nullable=true)
+     * @Groups({"show_garden"})
      */
     private $flowerPicture = [];
 
