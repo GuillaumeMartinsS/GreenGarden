@@ -44,5 +44,24 @@ class APIPlantController extends AbstractController
             ['groups' => ['show_plant']]
         );
     }
+    
+    /**
+     * Route to hydrate a plant
+     * @Route("/api/plants/{id}/hydrate", name="api_plant_hydrate", methods={"GET"})
+     */
+    public function hydratePlant(EntityManagerInterface $entityManager, Request $request, Plant $plant): Response
+    {
 
+        $hydratedPlant = $plant->setHydration(min($plant->getHydration() + 1, $plant->getGenre()->getMaxHydration()));
+
+        $entityManager->persist($hydratedPlant);
+        $entityManager->flush();
+
+        return $this->json(
+            $hydratedPlant,
+            Response::HTTP_CREATED,
+            [],
+            ['groups' => ['show_plant']]
+        );
+    }
 }
