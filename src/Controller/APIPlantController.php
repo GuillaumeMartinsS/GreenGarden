@@ -15,15 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class APIPlantController extends AbstractController
 {
-    /**
-     * @Route("/a/p/i/plant", name="app_a_p_i_plant")
-     */
-    public function index(): Response
-    {
-        return $this->render('api_plant/index.html.twig', [
-            'controller_name' => 'APIPlantController',
-        ]);
-    }
 
     /**
      * Route to create a new plant
@@ -53,4 +44,5 @@ class APIPlantController extends AbstractController
             ['groups' => ['show_plant']]
         );
     }
+
 }

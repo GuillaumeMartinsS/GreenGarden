@@ -148,7 +148,8 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
             'garden' => $garden,
             ]);
 
-            $this->mailer->send($email);
+            //? limit for the service reached for now, available again next month
+            // $this->mailer->send($email);
             }
 
             // then remove if 0
@@ -161,8 +162,8 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
             //? TO DO
 
         }
-
-        $this->entityManager->flush();
+        //? EVENT TO ACTIVATE
+        // $this->entityManager->flush();
     }
 
     public static function getSubscribedEvents(): array
