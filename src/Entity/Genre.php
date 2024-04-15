@@ -39,22 +39,27 @@ class Genre
      */
     private $value;
 
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     * @Groups({"show_garden"})
+   /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $maturePicture = [];
+    private $maturePicture;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
-     * @Groups({"show_garden"})
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $flowerPicture = [];
+    private $flowerPicture;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $witheringPicture;
 
     /**
      * @ORM\OneToMany(targetEntity=Plant::class, mappedBy="genre", orphanRemoval=true)
      */
     private $plants;
+
+
 
     public function __construct()
     {
@@ -102,26 +107,38 @@ class Genre
         return $this;
     }
 
-    public function getMaturePicture(): ?array
+    public function getMaturePicture(): ?string
     {
         return $this->maturePicture;
     }
 
-    public function setMaturePicture(?array $maturePicture): self
+    public function setMaturePicture(?string $maturePicture): self
     {
         $this->maturePicture = $maturePicture;
 
         return $this;
     }
 
-    public function getFlowerPicture(): ?array
+    public function getFlowerPicture(): ?string
     {
         return $this->flowerPicture;
     }
 
-    public function setFlowerPicture(?array $flowerPicture): self
+    public function setFlowerPicture(?string $flowerPicture): self
     {
         $this->flowerPicture = $flowerPicture;
+
+        return $this;
+    }
+
+    public function getWitheringPicture(): ?string
+    {
+        return $this->witheringPicture;
+    }
+
+    public function setWitheringPicture(?string $witheringPicture): self
+    {
+        $this->witheringPicture = $witheringPicture;
 
         return $this;
     }
