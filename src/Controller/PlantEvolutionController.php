@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PlantEvolutionController extends AbstractController
 {
     /**
-     * @Route("/api/evolution/garden/{id}", name="api_evolution_garden")
+     * @Route("/api/evolution/garden/{id}", name="api_evolution_garden", methods={"GET"})
      */
     public function updatingPlantEvolution(EntityManagerInterface $entityManager, Garden $garden, PlantRepository $plantRepository, WeatherRepository $weatherRepository, MailerInterface $mailer, OpenWeatherApi $openWeatherApi): Response
     {
@@ -104,7 +104,8 @@ class PlantEvolutionController extends AbstractController
             'garden' => $garden,
             ]);
 
-            $mailer->send($email);
+            //? limit for the service reached for now, available again next month
+            // $mailer->send($email);
             }
 
             // then remove if 0
@@ -122,7 +123,7 @@ class PlantEvolutionController extends AbstractController
 
         return $this->json(
             $garden,
-            Response::HTTP_CREATED,
+            Response::HTTP_OK,
             [],
             ['groups' => ['show_garden']]
         );

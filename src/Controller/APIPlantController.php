@@ -15,15 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class APIPlantController extends AbstractController
 {
-    /**
-     * @Route("/a/p/i/plant", name="app_a_p_i_plant")
-     */
-    public function index(): Response
-    {
-        return $this->render('api_plant/index.html.twig', [
-            'controller_name' => 'APIPlantController',
-        ]);
-    }
 
     /**
      * Route to create a new plant
@@ -48,6 +39,26 @@ class APIPlantController extends AbstractController
 
         return $this->json(
             $newPlant,
+            Response::HTTP_CREATED,
+            [],
+            ['groups' => ['show_plant']]
+        );
+    }
+    
+    /**
+     * Route to hydrate a plant
+     * @Route("/api/plants/{id}/hydrate", name="api_plant_hydrate", methods={"GET"})
+     */
+    public function hydratePlant(EntityManagerInterface $entityManager, Request $request, Plant $plant): Response
+    {
+
+        $hydratedPlant = $plant->setHydration(min($plant->getHydration() + 1, $plant->getGenre()->getMaxHydration()));
+
+        $entityManager->persist($hydratedPlant);
+        $entityManager->flush();
+
+        return $this->json(
+            $hydratedPlant,
             Response::HTTP_CREATED,
             [],
             ['groups' => ['show_plant']]
