@@ -18,11 +18,13 @@ class Garden
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"show_garden"})
+     * @Groups({"show_plant"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"show_garden"})
      * @Groups({"show_garden"})
      * 
      */
@@ -75,12 +77,23 @@ class Garden
         return $this;
     }
 
+    // /**
+    //  * @return Collection<int, Plant>
+    //  */
+    // public function getPlants(): Collection
+    // {
+    //     return $this->plants;
+    // }
+
     /**
      * @return Collection<int, Plant>
+     * ?! this is a modified version of the above one, to be sure it always returns an array, never an objet
+     * ?! see issue here : https://github.com/symfony/symfony/issues/36965
+     * ?! and direct answer there : https://api-platform.com/docs/core/serialization/#collection-relation 
      */
-    public function getPlants(): Collection
+    public function getPlants()
     {
-        return $this->plants;
+        return $this->plants->getValues();
     }
 
     public function addPlant(Plant $plant): self

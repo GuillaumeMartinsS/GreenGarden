@@ -123,7 +123,7 @@ class PlantEvolutionController extends AbstractController
 
         return $this->json(
             $garden,
-            Response::HTTP_CREATED,
+            Response::HTTP_OK,
             [],
             ['groups' => ['show_garden']]
         );

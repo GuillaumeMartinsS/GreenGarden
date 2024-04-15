@@ -162,8 +162,8 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
             //? TO DO
 
         }
-        //? EVENT TO ACTIVATE
-        // $this->entityManager->flush();
+
+        $this->entityManager->flush();
     }
 
     public static function getSubscribedEvents(): array
