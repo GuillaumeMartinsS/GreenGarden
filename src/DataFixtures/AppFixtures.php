@@ -100,16 +100,25 @@ class AppFixtures extends Fixture
                 'name' => 'Tulipe',
                 'maxHydration' => '5',
                 'value' => '1',
+                'maturePicture' => 'tulipe_mature.jpg',
+                'flowerPicture' => 'tulipe_flower.jpg',
+                'witheringPicture' => 'tulipe_withering.jpg',
             ],
             [
                 'name' => 'Jonquille',
                 'maxHydration' => '5',
                 'value' => '1',
+                'maturePicture' => 'jonquille_mature.jpg',
+                'flowerPicture' => 'jonquille_flower.jpg',
+                'witheringPicture' => 'jonquille_withering.jpg',
             ],      
             [
                 'name' => 'Jacynthe',
                 'maxHydration' => '4',
                 'value' => '2',
+                'maturePicture' => 'jacynthe_mature.jpg',
+                'flowerPicture' => 'jacynthe_flower.jpg',
+                'witheringPicture' => 'jacynthe_withering.jpg',
             ]
         ];
         
@@ -121,6 +130,9 @@ class AppFixtures extends Fixture
             $newGenre->setName($currentGenre['name']);
             $newGenre->setMaxHydration($currentGenre['maxHydration']);
             $newGenre->setvalue($currentGenre['value']);
+            $newGenre->setMaturePicture($currentGenre['maturePicture']);
+            $newGenre->setFlowerPicture($currentGenre['flowerPicture']);
+            $newGenre->setWitheringPicture($currentGenre['witheringPicture']);
 
             $manager->persist($newGenre);
 
@@ -214,6 +226,28 @@ class AppFixtures extends Fixture
                         $newPlant->setHydration($newPlant->getGenre()->getMaxHydration());
                         $newPlant->setGarden($newGarden);
                         $newPlant->setCreatedAt(new DateTimeImmutable('now'));
+                        
+                        if ($newPlant->getAge() === 0)
+                        {
+                            $newPlant->setPicture('soil.png');
+                        }
+                        else if ($newPlant->getAge() < 6)
+                        {
+                            $newPlant->setPicture('sprout.jpg');
+                        }
+                        else if ($newPlant->getAge() < 8)
+                        {
+                            $newPlant->setPicture($newPlant->getGenre()->getMaturePicture());
+                        }
+                        else if ($newPlant->getAge() < 10)
+                        {
+                            $newPlant->setPicture($newPlant->getGenre()->getFlowerPicture());
+                        }
+                        else
+                        {
+                            $newPlant->setPicture($newPlant->getGenre()->getWitheringPicture());
+                        }
+                        
     
                         $manager->persist($newPlant);
                     }

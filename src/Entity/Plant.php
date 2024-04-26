@@ -36,6 +36,8 @@ class Plant
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"show_plant"})
+     * @Groups({"show_garden"})
      */
     private $picture;
 

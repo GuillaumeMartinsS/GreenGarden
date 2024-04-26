@@ -51,6 +51,9 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
         if (is_array($controller)){$controller = $controller[0];}
 
         $controllerName = get_class($controller);
+
+        //! desabled
+        $controllerName = '';
         
         // If it's not the one showing the garden, we don't do anything
         if (strpos($controllerName, 'App\Controller\APIGardenController') === false){
@@ -117,8 +120,27 @@ class PlantEvolutionSubscriber implements EventSubscriberInterface
                 $this->plantRepository->remove($plant,true);
             }
 
-            // then change picture if needed
-            //? TO DO
+            // then change the picture of the plant 
+            if ($olderPlant->getAge() === 0)
+            {
+                $olderPlant->setPicture('soil.png');
+            }
+            else if ($olderPlant->getAge() < 6)
+            {
+                $olderPlant->setPicture('sprout.jpg');
+            }
+            else if ($olderPlant->getAge() < 8)
+            {
+                $olderPlant->setPicture($olderPlant->getGenre()->getMaturePicture());
+            }
+            else if ($olderPlant->getAge() < 10)
+            {
+                $olderPlant->setPicture($olderPlant->getGenre()->getFlowerPicture());
+            }
+            else
+            {
+                $olderPlant->setPicture($olderPlant->getGenre()->getWitheringPicture());
+            }
 
             // then give value to the user if stage 
             if($olderPlant->getAge() == 8)

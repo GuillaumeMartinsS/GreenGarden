@@ -6,6 +6,8 @@
 parameters:
     # Directory where medias uploaded by users goes :
     upload_directory: '%kernel.project_dir%/public/uploads'
+    # Directory where plant pictures are :
+    plantPicture_directory: '%kernel.project_dir%/public/plantPictures'
     # Open Weather API key :
     app.openweather_api_key: '%env(OPENWEATHER_API_KEY)%'
 
