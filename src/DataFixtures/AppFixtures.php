@@ -109,8 +109,8 @@ class AppFixtures extends Fixture
                 'maxHydration' => '5',
                 'value' => '1',
                 'maturePicture' => 'jonquille_mature.jpg',
-                'flowerPicture' => 'joncquille_flower.jpg',
-                'witheringPicture' => 'joncquille_withering.jpg',
+                'flowerPicture' => 'jonquille_flower.jpg',
+                'witheringPicture' => 'jonquille_withering.jpg',
             ],      
             [
                 'name' => 'Jacynthe',
